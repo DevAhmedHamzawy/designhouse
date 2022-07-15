@@ -6,6 +6,8 @@ use App\Http\Controllers\User\MeController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\User\SettingController;
+use App\Http\Controllers\Designs\UploadController;
+use App\Http\Controllers\Designs\DesignController;
 
 // public routes
 Route::get('me', [MeController::class, 'getMe']);
@@ -13,6 +15,13 @@ Route::get('me', [MeController::class, 'getMe']);
 // route for users
 Route::group(['middleware' => ['auth:api']], function(){
     Route::post('logout', [LoginController::class, 'logout']);
+
+    Route::put('settings/profile', [SettingController::class, 'updateProfile']);
+    Route::put('settings/password', [SettingController::class, 'updatePassword']);
+
+    Route::post('designs', [UploadController::class, 'upload']);
+    Route::put('designs/{id}', [DesignController::class, 'update']);
+    Route::delete('designs/{id}', [DesignController::class, 'destroy']);
 });
 
 
@@ -26,7 +35,6 @@ Route::group(['middleware' => ['guest:api']], function(){
 
     Route::post('login', [LoginController::class, 'login']);
 
-    Route::put('settings/profile', [SettingController::class, 'updateProfile']);
-    Route::put('settings/password', [SettingController::class, 'updatePassword']);
+  
 
 });
