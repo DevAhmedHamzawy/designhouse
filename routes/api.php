@@ -8,9 +8,17 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\User\SettingController;
 use App\Http\Controllers\Designs\UploadController;
 use App\Http\Controllers\Designs\DesignController;
+use App\Http\Controllers\User\UserController;
 
 // public routes
 Route::get('me', [MeController::class, 'getMe']);
+
+// designs
+Route::get('designs', [DesignController::class, 'index']);
+Route::get('designs/{id}', [DesignController::class, 'findDesign']);
+
+//users
+Route::get('users', [UserController::class, 'index']);
 
 // route for users
 Route::group(['middleware' => ['auth:api']], function(){

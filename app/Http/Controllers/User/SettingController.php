@@ -12,11 +12,11 @@ use Grimzy\LaravelMysqlSpatial\Types\Point;
 
 class SettingController extends Controller
 {
-    //protected $users;
-    /*public function __construct(IUser $users)
+   protected $users;
+    public function __construct(IUser $users)
     {
         $this->users = $users;
-    }*/
+    }
 
     public function updateProfile(Request $request)
     {
@@ -32,10 +32,9 @@ class SettingController extends Controller
         ]);
 
         //$location = new Point($request->location['latitude'], $request->location['longitude']);
-        
-        $location = [$request->location['latitude'], $request->location['longitude']];
+        $location = [$request->latitude,$request->longitude];
 
-        $user = auth()->user()->update([
+        $user = $this->users->update(auth()->id(), [
             'name' => $request->name,
             'formatted_address' => $request->formatted_address,
             'location' => $location,
@@ -44,7 +43,7 @@ class SettingController extends Controller
             'tagline' => $request->tagline,
         ]);
 
-        return new UserResource(auth()->user());
+        return new UserResource($user);
 
     }
 
@@ -56,12 +55,13 @@ class SettingController extends Controller
             'password' => ['required', 'confirmed', 'min:6', new CheckSamePassword],
         ]);
         
-        auth()->user()->update([
+        $this->users->update(auth()->id(), [
             'password' => bcrypt($request->password)
         ]);
 
         return response()->json(['message' => 'Password updated'], 200);
 
     }
+
 
 }

@@ -3,29 +3,33 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\Events\Verified;
+use App\Repositories\Contracts\IUser;
 
 class VerificationController extends Controller
 {
 
+    protected $users;
+
+   
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(IUser $users)
     {
         $this->middleware('throttle:6,1')->only('verify', 'resend');
+        $this->users = $users;
     }
 
     public function verify(Request $request, User $user)
     {
         // check if the url is a valid signed url
-        if(!URL::hasValidSignature($request)){
+        if(! URL::hasValidSignature($request)){
             return response()->json(["errors" => [
                 "message" => "Invalid verification link or signature"
             ]], 422);
@@ -51,8 +55,8 @@ class VerificationController extends Controller
             'email' => ['email', 'required']
         ]);
         
-        // $user = $this->users->findWhereFirst('email', $request->email);
-        $user = User::where('email', $request->email)->first();
+        $user = $this->users->findWhereFirst('email', $request->email);
+        // $user = User::where('email', $request->email)->first();
         
         if(! $user){
             return response()->json(["errors" => [
