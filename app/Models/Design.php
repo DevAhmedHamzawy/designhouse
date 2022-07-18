@@ -24,6 +24,11 @@ class Design extends Model
         return $this->morphMany(Comment::class, 'commentable')->orderBy('created_at', 'asc');
     }
 
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
     public function getImagesAttribute()
     {
         

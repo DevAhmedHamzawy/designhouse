@@ -34,12 +34,12 @@ class DesignResource extends JsonResource
                 'updated_at_human' => $this->updated_at->diffForHumans(),
                 'updated_at' => $this->updated_at
             ],
-            /*'team' => $this->team ? [
+            'team' => $this->team ? [
                 'id' => $this->team->id,
                 'name' => $this->team->name,
                 'slug' => $this->team->slug
-            ] : null,*/
-            //'comments_count' => $this->comments()->count()
+            ] : null,
+            'comments_count' => $this->comments()->count(),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'user' => new UserResource($this->whenLoaded('user'))
             

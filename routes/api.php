@@ -10,6 +10,8 @@ use App\Http\Controllers\Designs\UploadController;
 use App\Http\Controllers\Designs\DesignController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Designs\CommentController;
+use App\Http\Controllers\Teams\TeamController;
+use App\Http\Controllers\Teams\InvitationController;
 
 // public routes
 Route::get('me', [MeController::class, 'getMe']);
@@ -20,6 +22,9 @@ Route::get('designs/{id}', [DesignController::class, 'findDesign']);
 
 //users
 Route::get('users', [UserController::class, 'index']);
+
+// Team
+Route::get('teams/slug/{slug}', [TeamController::class, 'findBySlug']);
 
 // route for users
 Route::group(['middleware' => ['auth:api']], function(){
@@ -40,6 +45,22 @@ Route::group(['middleware' => ['auth:api']], function(){
     Route::post('designs/{id}/comments', [CommentController::class, 'store']);
     Route::put('comments/{id}', [CommentController::class, 'update']);
     Route::delete('comments/{id}', [CommentController::class, 'destroy']);
+
+    // Teams
+    Route::post('teams', [TeamController::class, 'store']);
+    Route::get('teams/{id}', [TeamController::class, 'findById']);
+    Route::get('teams', [TeamController::class, 'index']);
+    Route::get('users/teams', [TeamController::class, 'fetchUserTeams']);
+    Route::put('teams/{id}', [TeamController::class, 'update']);
+    Route::delete('teams/{id}', [TeamController::class, 'destroy']);
+    Route::delete('teams/{team_id}/users/{user_id}', [TeamController::class, 'removeFromTeam']);
+
+
+    // Invitations
+    Route::post('invitations/{teamId}', [InvitationController::class, 'invite']);
+    Route::post('invitations/{id}/resend', [InvitationController::class, 'resend']);
+    Route::post('invitations/{id}/respond', [InvitationController::class, 'respond']);
+    Route::delete('invitations/{id}', [InvitationController::class, 'destroy']);
 });
 
 
