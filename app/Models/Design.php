@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Cviebrock\EloquentTaggable\Taggable;
+use App\Models\Traits\Likeable;
 
 class Design extends Model
 {
-    use HasFactory, Taggable;
+    use HasFactory, Taggable, Likeable;
 
     protected $guarded = [];
 
