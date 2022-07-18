@@ -9,6 +9,7 @@ use App\Http\Controllers\User\SettingController;
 use App\Http\Controllers\Designs\UploadController;
 use App\Http\Controllers\Designs\DesignController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Designs\CommentController;
 
 // public routes
 Route::get('me', [MeController::class, 'getMe']);
@@ -30,6 +31,11 @@ Route::group(['middleware' => ['auth:api']], function(){
     Route::post('designs', [UploadController::class, 'upload']);
     Route::put('designs/{id}', [DesignController::class, 'update']);
     Route::delete('designs/{id}', [DesignController::class, 'destroy']);
+
+    // Comments
+    Route::post('designs/{id}/comments', [CommentController::class, 'store']);
+    Route::put('comments/{id}', [CommentController::class, 'update']);
+    Route::delete('comments/{id}', [CommentController::class, 'destroy']);
 });
 
 
