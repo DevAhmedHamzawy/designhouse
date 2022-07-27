@@ -12,6 +12,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Designs\CommentController;
 use App\Http\Controllers\Teams\TeamController;
 use App\Http\Controllers\Teams\InvitationController;
+use App\Http\Controllers\Chats\ChatController;
 
 // public routes
 Route::get('me', [MeController::class, 'getMe']);
@@ -61,6 +62,13 @@ Route::group(['middleware' => ['auth:api']], function(){
     Route::post('invitations/{id}/resend', [InvitationController::class, 'resend']);
     Route::post('invitations/{id}/respond', [InvitationController::class, 'respond']);
     Route::delete('invitations/{id}', [InvitationController::class, 'destroy']);
+
+    // Chats
+    Route::post('chats', [ChatController::class, 'sendMessage']);
+    Route::get('chats', [ChatController::class, 'getUserChats']);
+    Route::get('chats/{id}/messages', [ChatController::class, 'getChatMessages']);
+    Route::put('chats/{id}/markAsRead', [ChatController::class, 'markAsRead']);
+    Route::delete('messages/{id}', [ChatController::class, 'destroyMessage']);
 });
 
 

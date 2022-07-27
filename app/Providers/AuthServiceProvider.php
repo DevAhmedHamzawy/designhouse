@@ -18,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
         Comment::class => CommentPolicy::class,
         Team::class => TeamPolicy::class,
         Policy::class => InvitationPolicy::class,
+        Message::class => MessagePolicy::class
 
     ];
 
