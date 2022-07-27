@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories\Contracts;
+use Illuminate\Http\Request;
 
 interface IDesign 
 {
@@ -8,4 +9,5 @@ interface IDesign
     public function addComment($designId, array $data);
     public function like($id);
     public function isLikedByUser($id);
+    public function search(Request $request);
 }

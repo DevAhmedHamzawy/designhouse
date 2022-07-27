@@ -20,12 +20,20 @@ Route::get('me', [MeController::class, 'getMe']);
 // designs
 Route::get('designs', [DesignController::class, 'index']);
 Route::get('designs/{id}', [DesignController::class, 'findDesign']);
+Route::get('designs/slug/{slug}', [DesignController::class, 'findBySlug']);
+Route::get('teams/{id}/{designs}', [DesignController::class, 'getForTeam']);
+Route::get('user/{id}/{designs}', [DesignController::class, 'getForUser']);
 
 //users
 Route::get('users', [UserController::class, 'index']);
+Route::get('user/{username}', [UserController::class, 'findByUsername']);
+
 
 // Team
 Route::get('teams/slug/{slug}', [TeamController::class, 'findBySlug']);
+
+// search designs
+Route::get('search/designs', [DesignController::class, 'search']);
 
 // route for users
 Route::group(['middleware' => ['auth:api']], function(){
